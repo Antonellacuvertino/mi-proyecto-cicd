@@ -1,0 +1,26 @@
+name: CI/CD Pipeline Docker
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codigo
+        uses: actions/checkout@v3
+
+      - name: Login en Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.USER_DOCKERHUB }}
+          password: ${{ secrets.PASSWORD_DOCKERHUB }}
+
+      - name: Build y Push de la imagen
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+         
+          tags: ${{ secrets.USER_DOCKERHUB }}/mi-proyecto-cicd:latest
