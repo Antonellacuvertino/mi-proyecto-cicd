@@ -3,6 +3,8 @@ name: CI/CD Pipeline Docker
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   build-and-push:
@@ -14,13 +16,13 @@ jobs:
       - name: Login en Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.antonellacuvertino }}
-          password: ${{ secrets.C21988926-7 }}
+          username: ${{ secrets.USER_DOCKERHUB }}
+          password: ${{ secrets.PASSWORD_DOCKERHUB }}
 
       - name: Build y Push de la imagen
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-         
+          
           tags: ${{ secrets.USER_DOCKERHUB }}/mi-proyecto-cicd:latest
